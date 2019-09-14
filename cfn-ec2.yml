@@ -1,14 +1,19 @@
 # Requires:
-# - In region eu-west-2
-# - An SSH key named MCInstanceAccess
 # - An S3 bucket called guydunton-mc-resources containing the script mc-instance-start-script.sh
-Description: EC2 instance for running a MC server. Requried a security group c
+Description: EC2 instance for running a MC server.
+Parameters:
+  AmiId:
+    Type: String
+    Description: Ami Id for base image
+  SshKeyName:
+    Type: String
+    Description: SSH key name already existing within AWS
 Resources:
   MCServerInstance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-00a1270ce1e007c27
+      ImageId: !Ref AmiId
       UserData:
         Fn::Base64: |
           #!/bin/bash -x
@@ -18,7 +23,7 @@ Resources:
       IamInstanceProfile: !Ref EC2S3InstanceProfile
       SecurityGroups:
         - !Ref MCSecurityGroup
-      KeyName: MCInstanceAccess
+      KeyName: !Ref SshKeyName
       Tags:
         - Key: Name
           Value: MC Server
