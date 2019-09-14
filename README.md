@@ -16,3 +16,8 @@ These are the resource needed to create a minecraft server on AWS.
 ```bash
 ./deploy.sh
 ```
+
+## How to connect to the server
+
+- Open Minecraft Vanilla
+- Direct connect to server at <**_public ip address_**>:25565
