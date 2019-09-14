@@ -1,0 +1,30 @@
+# Requires:
+# - In region eu-west-2
+# - Security group named default with access to port 25565 for all TCP & UDP traffic
+# - An SSH key named MCInstanceAccess
+# - An IAM role called EC2S3ReadOnlyRole which grants read only access to S3
+# - An S3 bucket called guydunton-mc-resources containing the script mc-instance-start-script.sh
+Description: EC2 instance for running a MC server. Requried a security group c
+Resources:
+  MCServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-00a1270ce1e007c27
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash -x
+          aws s3 cp s3://guydunton-mc-resources/mc-instance-start-script.sh ./
+          chmod +x mc-instance-start-script.sh
+          ./mc-instance-start-script.sh
+      IamInstanceProfile: EC2S3ReadOnlyRole
+      SecurityGroups:
+        - default
+      KeyName: MCInstanceAccess
+      Tags:
+        - Key: Name
+          Value: MC Server
+Outputs:
+  InstanceIP:
+    Description: The Instance Public IP
+    Value: !GetAtt MCServerInstance.PublicIp

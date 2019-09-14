@@ -4,8 +4,19 @@ These are the resource needed to create a minecraft server on AWS.
 
 ## Creating an instance
 
-- Create an instance on EC2 with a user data script containing the contents of `user-data.sh`
-- The instance must user a role which gives it access to S3.
+To deploy the instance into an AWS account run the following script:
+
+```bash
+./deploy-instance.sh
+```
+
+**Note**: Requirements to run the instance are listed in `cfn-ec2.yml`
+
+To delete the instance and all associated resources run the following command:
+
+```bash
+./teardown-stack.sh
+```
 
 ## To deploy these resources
 
