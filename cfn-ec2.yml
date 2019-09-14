@@ -27,6 +27,10 @@ Resources:
       Tags:
         - Key: Name
           Value: MC Server
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeSize: 20
   MCSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
