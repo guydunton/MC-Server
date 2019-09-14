@@ -18,6 +18,12 @@ To delete the instance and all associated resources run the following command:
 ./teardown-stack.sh
 ```
 
+The above command will only upload the text resources needed and won't download the minecraft server jar file. To upload the Jar file run the same command with the `--all` flag e.g.
+
+```bash
+./deploy-resources.sh --all
+```
+
 ## To deploy these resources
 
 **Prerequisites:**
@@ -25,7 +31,7 @@ To delete the instance and all associated resources run the following command:
 - Have an AWS account with S3 write access setup.
 
 ```bash
-./deploy.sh
+./bin/deploy-resources.sh
 ```
 
 ## How to connect to the server
