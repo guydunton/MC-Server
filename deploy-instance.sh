@@ -6,6 +6,7 @@ export AWS_DEFAULT_REGION=eu-west-2
 
 aws cloudformation deploy \
     --template-file cfn-ec2.yml \
+    --capabilities CAPABILITY_NAMED_IAM \
     --stack-name "$STACK_NAME"
 
 INSTANCE_IP=$(aws cloudformation describe-stacks \
