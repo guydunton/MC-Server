@@ -34,7 +34,22 @@ Resources:
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
-            VolumeSize: 20
+            VolumeSize: 8
+
+  # Minecraft data Volume
+  MCDataVolume:
+    Type: AWS::EC2::Volume
+    Properties:
+      Size: 16
+      AvailabilityZone: !GetAtt MCServerInstance.AvailabilityZone
+
+  # Volume attachement
+  MCDataVolumeAttachment:
+    Type: AWS::EC2::VolumeAttachment
+    Properties:
+      InstanceId: !Ref MCServerInstance
+      VolumeId: !Ref MCDataVolume
+      Device: /dev/sdh
 
   # Security group with MC access
   MCSecurityGroup:

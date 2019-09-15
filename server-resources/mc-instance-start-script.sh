@@ -2,8 +2,15 @@
 yum update -y
 yum install -y java-1.8.0-openjdk
 
-# Create minecraft director
+# Mount the volume 
+if [ $(file -s /dev/xvdh) == "/dev/xvdh: data" ]; then
+    mkfs -t ext4 /dev/xvdh
+fi
+
+# Create minecraft directory
 mkdir /minecraft
+mount /dev/xvdh /minecraft/
+echo "/dev/xvdh /minecraft ext4 defaults,nofail 0 0" >> /etc/fstab
 
 cd /minecraft
 aws s3 cp s3://guydunton-mc-resources/server.jar ./
