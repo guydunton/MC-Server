@@ -2,8 +2,9 @@
 yum update -y
 yum install -y java-1.8.0-openjdk
 
-# Mount the volume 
-if [ $(file -s /dev/xvdh) == "/dev/xvdh: data" ]; then
+# If not formatted, format the volume
+IS_VOLUME_FORMATTED=$(file -s /dev/xvdh)
+if [ "$IS_VOLUME_FORMATTED" == "/dev/xvdh: data" ]; then
     mkfs -t ext4 /dev/xvdh
 fi
 
