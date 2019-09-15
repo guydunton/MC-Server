@@ -4,6 +4,8 @@ STACK_NAME=MCServerStack
 
 export AWS_DEFAULT_REGION=eu-west-2
 
+# If it doesn't exist create a bucket 
+
 aws cloudformation deploy \
     --template-file cfn-ec2.yml \
     --capabilities CAPABILITY_NAMED_IAM \
