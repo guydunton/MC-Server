@@ -10,7 +10,10 @@ aws cloudformation deploy \
     --template-file cfn-ec2.yml \
     --capabilities CAPABILITY_NAMED_IAM \
     --stack-name "$STACK_NAME" \
-    --parameter-overrides AmiId=ami-00a1270ce1e007c27 SshKeyName=MCInstanceAccess
+    --parameter-overrides \
+        AmiId=ami-00a1270ce1e007c27 \
+        SshKeyName=MCInstanceAccess \
+        WorldBucketPrefix=guydunton
 
 INSTANCE_IP=$(aws cloudformation describe-stacks \
     --stack-name "$STACK_NAME" \
