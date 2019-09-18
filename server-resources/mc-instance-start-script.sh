@@ -27,7 +27,7 @@ echo '#!/bin/bash' > /home/ec2-user/backup.sh
     echo "ls | grep -v server.jar | xargs | xargs -I {} sh -c 'tar -czvf ~/world.tar.gz {}';" 
     echo "aws s3 cp ~/world.tar.gz s3://guydunton-mc-world-data-bucket"
 } >> /home/ec2-user/backup.sh
-chmod +x /home/ec2-user/backup.sh
+chmod +x /home/ec2-user/backup.sh # Check that the ec2 user can run the script (permissions)
 crontab -u ec2-user <(echo "0 * * * * /home/ec2-user/backup.sh")
 
 # Setup the minecraft service
