@@ -30,6 +30,14 @@ echo '#!/bin/bash' > /home/ec2-user/backup.sh
 chmod +x /home/ec2-user/backup.sh # Check that the ec2 user can run the script (permissions)
 crontab -u ec2-user <(echo "0 * * * * /home/ec2-user/backup.sh")
 
+# If the world data exists pull it from S3
+if aws s3 ls s3://guydunton-mc-world-data-bucket/world.tar.gz; then
+    pushd /minecraft
+    aws s3 cp s3://guydunton-mc-world-data-bucket/world.tar.gz ./
+    tar -zxvf /minecraft/world.tar.gz
+    popd
+fi
+
 # Setup the minecraft service
 aws s3 cp s3://guydunton-mc-resources/minecraft.service /etc/systemd/system/minecraft.service
 systemctl daemon-reload

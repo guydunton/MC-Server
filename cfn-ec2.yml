@@ -98,7 +98,7 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
       Policies:
-        - PolicyName: "ReadMCDataBucket"
+        - PolicyName: "ReadWriteMCDataBucket"
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
