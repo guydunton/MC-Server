@@ -8,8 +8,11 @@ Parameters:
     Type: AWS::EC2::Image::Id
     Description: Ami Id for base image
   SshKeyName:
-    Type: String
+    Type: AWS::EC2::KeyPair::KeyName
     Description: SSH key name already existing within AWS
+  WorldBucketName:
+    Type: String
+    Description:
 
 Resources:
   # MC Instance
@@ -96,7 +99,7 @@ Resources:
                 Action:
                   - "s3:GetObject"
                   - "s3:PutObject"
-                Resource: !Join ["/", [!GetAtt MCWorldDataBucket.Arn, "*"]]
+                Resource: !Join ["", ["arn:aws:s3:::", !Ref WorldBucketName]]
 
   # Role Profile
   EC2S3InstanceProfile:

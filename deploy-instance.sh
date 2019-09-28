@@ -13,7 +13,8 @@ aws cloudformation deploy \
     --stack-name "$STACK_NAME" \
     --parameter-overrides \
         AmiId=ami-00a1270ce1e007c27 \
-        SshKeyName=MCInstanceAccess
+        SshKeyName=MCInstanceAccess \
+        WorldBucketName=guydunton-mc-world-data
 
 INSTANCE_IP=$(aws cloudformation describe-stacks \
     --stack-name "$STACK_NAME" \
