@@ -10,9 +10,6 @@ Parameters:
   SshKeyName:
     Type: String
     Description: SSH key name already existing within AWS
-  WorldBucketPrefix:
-    Type: String
-    Description: Prefix for the name of the world data bucket
 
 Resources:
   # MC Instance
@@ -53,13 +50,6 @@ Resources:
       InstanceId: !Ref MCServerInstance
       VolumeId: !Ref MCDataVolume
       Device: /dev/sdh
-
-  # MC World data bucket
-  MCWorldDataBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Join ["-", [!Ref WorldBucketPrefix, "mc-world-data-bucket"]]
-    # DeletionPolicy: Retain
 
   # Security group with MC access
   MCSecurityGroup:

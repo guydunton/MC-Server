@@ -23,9 +23,9 @@ cd /minecraft
 aws s3 cp s3://guydunton-mc-resources/server.jar ./
 
 # If the world data exists pull it from S3
-if aws s3 ls s3://guydunton-mc-world-data-bucket/world.tar.gz; then
+if aws s3 ls s3://guydunton-mc-world-data/world.tar.gz; then
     pushd /minecraft
-    aws s3 cp s3://guydunton-mc-world-data-bucket/world.tar.gz ./
+    aws s3 cp s3://guydunton-mc-world-data/world.tar.gz ./
     tar -zxvf /minecraft/world.tar.gz
     popd
 else

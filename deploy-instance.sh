@@ -4,7 +4,8 @@ STACK_NAME=MCServerStack
 
 export AWS_DEFAULT_REGION=eu-west-2
 
-# If it doesn't exist create a bucket 
+# If it doesn't exist create a world data bucket 
+aws s3 mb s3://guydunton-mc-world-data || true
 
 aws cloudformation deploy \
     --template-file cfn-ec2.yml \
@@ -12,8 +13,7 @@ aws cloudformation deploy \
     --stack-name "$STACK_NAME" \
     --parameter-overrides \
         AmiId=ami-00a1270ce1e007c27 \
-        SshKeyName=MCInstanceAccess \
-        WorldBucketPrefix=guydunton
+        SshKeyName=MCInstanceAccess
 
 INSTANCE_IP=$(aws cloudformation describe-stacks \
     --stack-name "$STACK_NAME" \
