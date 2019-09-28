@@ -21,7 +21,7 @@ To delete the instance and all associated resources run the following command:
 The above command will only upload the text resources needed and won't download the minecraft server jar file. To upload the Jar file run the same command with the `--all` flag e.g.
 
 ```bash
-./deploy-resources.sh --all
+UPLOAD_ALL=all ./deploy-resources.sh
 ```
 
 ## To deploy these resources

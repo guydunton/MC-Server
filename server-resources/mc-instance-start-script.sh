@@ -13,22 +13,13 @@ mkdir /minecraft
 mount /dev/xvdh /minecraft/
 echo "/dev/xvdh /minecraft ext4 defaults,nofail 0 0" >> /etc/fstab
 
+# Setup the server backup script (& add into cron)
+aws s3 cp s3://guydunton-mc-resources/world-backup.sh /home/ec2-user/world-backup.sh
+crontab -u ec2-user <(echo "0 * * * * /home/ec2-user/world-backup.sh")
+
+# Add the server jar to /minecraft
 cd /minecraft
 aws s3 cp s3://guydunton-mc-resources/server.jar ./
-
-# Start minecraft to sort out the eula
-java -jar server.jar nogui
-sed -i 's/eula=false/eula=true/g' eula.txt
-
-# Setup the server backup script (& add into cron)
-echo '#!/bin/bash' > /home/ec2-user/backup.sh
-{
-    echo "cd /minecraft"
-    echo "ls | grep -v server.jar | xargs | xargs -I {} sh -c 'tar -czvf ~/world.tar.gz {}';" 
-    echo "aws s3 cp ~/world.tar.gz s3://guydunton-mc-world-data-bucket"
-} >> /home/ec2-user/backup.sh
-chmod +x /home/ec2-user/backup.sh # Check that the ec2 user can run the script (permissions)
-crontab -u ec2-user <(echo "0 * * * * /home/ec2-user/backup.sh")
 
 # If the world data exists pull it from S3
 if aws s3 ls s3://guydunton-mc-world-data-bucket/world.tar.gz; then
@@ -36,6 +27,10 @@ if aws s3 ls s3://guydunton-mc-world-data-bucket/world.tar.gz; then
     aws s3 cp s3://guydunton-mc-world-data-bucket/world.tar.gz ./
     tar -zxvf /minecraft/world.tar.gz
     popd
+else
+    # Start minecraft to sort out the eula
+    java -jar server.jar nogui
+    sed -i 's/eula=false/eula=true/g' eula.txt
 fi
 
 # Setup the minecraft service
