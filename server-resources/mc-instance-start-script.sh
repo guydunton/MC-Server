@@ -15,6 +15,7 @@ echo "/dev/xvdh /minecraft ext4 defaults,nofail 0 0" >> /etc/fstab
 
 # Setup the server backup script (& add into cron)
 aws s3 cp s3://guydunton-mc-resources/world-backup.sh /home/ec2-user/world-backup.sh
+chmod +x /home/ec2-user/world-backup.sh
 crontab -u ec2-user <(echo "0 * * * * /home/ec2-user/world-backup.sh")
 
 # Add the server jar to /minecraft
