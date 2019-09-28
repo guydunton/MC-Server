@@ -1,0 +1,14 @@
+{
+  "Rules": [
+    {
+      "ID": "drop old files",
+      "Filter": {
+        "Prefix": ""
+      },
+      "Status": "Enabled",
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 7
+      }
+    }
+  ]
+}

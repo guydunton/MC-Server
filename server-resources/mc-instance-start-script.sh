@@ -16,18 +16,21 @@ echo "/dev/xvdh /minecraft ext4 defaults,nofail 0 0" >> /etc/fstab
 # Setup the server backup script (& add into cron)
 aws s3 cp s3://guydunton-mc-resources/world-backup.sh /home/ec2-user/world-backup.sh
 chmod +x /home/ec2-user/world-backup.sh
-crontab -u ec2-user <(echo "0 * * * * /home/ec2-user/world-backup.sh")
+crontab -u ec2-user <(echo "0,10,20,30,40,50 * * * * /home/ec2-user/world-backup.sh")
 
 # Add the server jar to /minecraft
 cd /minecraft
 aws s3 cp s3://guydunton-mc-resources/server.jar ./
 
+# Pull the restore script
+aws s3 cp s3://guydunton-mc-resources/world-restore.sh /home/ec2-user/world-restore.sh
+chmod +x /home/ec2-user/world-restore.sh
+
+chown -R ec2-user:ec2-user /minecraft
+
 # If the world data exists pull it from S3
 if aws s3 ls s3://guydunton-mc-world-data/world.tar.gz; then
-    pushd /minecraft
-    aws s3 cp s3://guydunton-mc-world-data/world.tar.gz ./
-    tar -zxvf /minecraft/world.tar.gz
-    popd
+    /home/ec2-user/world-restore.sh
 else
     # Start minecraft to sort out the eula
     java -jar server.jar nogui

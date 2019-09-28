@@ -12,7 +12,7 @@ Parameters:
     Description: SSH key name already existing within AWS
   WorldBucketName:
     Type: String
-    Description:
+    Description: The bucket that the world data is stored in
 
 Resources:
   # MC Instance
@@ -99,7 +99,8 @@ Resources:
                 Action:
                   - "s3:GetObject"
                   - "s3:PutObject"
-                Resource: !Join ["", ["arn:aws:s3:::", !Ref WorldBucketName]]
+                Resource:
+                  !Join ["", ["arn:aws:s3:::", !Ref WorldBucketName, "/*"]]
 
   # Role Profile
   EC2S3InstanceProfile:
