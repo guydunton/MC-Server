@@ -2,6 +2,7 @@
 
 STACK_NAME=MCServerStack
 WORLD_DATA_BUCKET_NAME=guydunton-mc-world-data
+SERVER_DNS=gd-server.net
 
 export AWS_DEFAULT_REGION=eu-west-2
 
@@ -25,7 +26,9 @@ aws cloudformation deploy \
     --parameter-overrides \
         AmiId=ami-00a1270ce1e007c27 \
         SshKeyName=MCInstanceAccess \
-        WorldBucketName="$WORLD_DATA_BUCKET_NAME"
+        WorldBucketName="$WORLD_DATA_BUCKET_NAME" \
+        HostedZoneId=Z16Z5HKB0I8IWV \
+        DomainName="$SERVER_DNS".
 
 INSTANCE_IP=$(aws cloudformation describe-stacks \
     --stack-name "$STACK_NAME" \
@@ -34,3 +37,7 @@ INSTANCE_IP=$(aws cloudformation describe-stacks \
 
 echo "IP:"
 echo "$INSTANCE_IP:25565"
+
+echo
+echo "Server address:"
+echo "$SERVER_DNS"

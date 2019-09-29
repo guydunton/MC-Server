@@ -13,6 +13,12 @@ Parameters:
   WorldBucketName:
     Type: String
     Description: The bucket that the world data is stored in
+  HostedZoneId:
+    Type: String
+    Description: The Hosted Zone ID in route 53 to add the EC2 Instance record to
+  DomainName:
+    Type: String
+    Description: The domain name to add the DNS record to
 
 Resources:
   # MC Instance
@@ -108,6 +114,17 @@ Resources:
     Properties:
       Roles:
         - !Ref EC2S3Role
+
+  # Route 53
+  dnsRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref DomainName
+      Type: A
+      TTL: "300"
+      ResourceRecords:
+        - !GetAtt MCServerInstance.PublicIp
 
 Outputs:
   InstanceIP:
