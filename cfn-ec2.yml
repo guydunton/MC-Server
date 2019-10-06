@@ -25,7 +25,7 @@ Resources:
   MCServerInstance:
     Type: AWS::EC2::Instance
     Properties:
-      InstanceType: t2.micro
+      InstanceType: t2.medium
       ImageId: !Ref AmiId
       UserData:
         Fn::Base64: |
